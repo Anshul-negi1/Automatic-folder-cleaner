@@ -1,41 +1,39 @@
 import os
 
-def createIfNotExist(folder):
-    if not os.path.exists(folder):
-        os.makedirs(folder)
+def create_folder(folder):
+    os.makedirs(folder, exist_ok=True)
 
-def move(folderName, files):
+def move_files(folder, files):
     for file in files:
-        os.replace(file, f"{folderName}/{file}") 
+        os.replace(file, os.path.join(folder, file))
 
 if __name__ == "__main__":
-        
-    files = os.listdir()
-    files.remove("main.py")
+    files = [f for f in os.listdir() if os.path.isfile(f) and f != "main.py"]
 
-    createIfNotExist('Images')
-    createIfNotExist('Docs')
-    createIfNotExist('Media')
-    createIfNotExist('Others')
+    categories = {
+        "Images": [".png", ".jpg", ".jpeg"],
+        "Docs": [".txt", ".docx", ".doc", ".pdf"],
+        "Media": [".mp4", ".mp3", ".flv"],
+    }
 
-    imgExts = [".png", ".jpg", ".jpeg"]
-    images = [file for file in files if os.path.splitext(file)[1].lower() in imgExts ]
-
-    docExts = [".txt", ".docx", "doc", ".pdf"]
-    docs = [file for file in files if os.path.splitext(file)[1].lower() in docExts]
-
-
-    mediaExts = [".mp4", ".mp3", ".flv"]
-    medias = [file for file in files if os.path.splitext(file)[1].lower() in mediaExts]
-
+    organized_files = {key: [] for key in categories}
     others = []
+
     for file in files:
         ext = os.path.splitext(file)[1].lower()
-        if (ext not in mediaExts) and (ext not in docExts) and (ext not in imgExts) and os.path.isfile(file):
+        for category, extensions in categories.items():
+            if ext in extensions:
+                organized_files[category].append(file)
+                break
+        else:
             others.append(file)
 
-    move("Images", images)
-    move("Docs", docs)
-    move("Media", medias)
-    move("Others", others)
+    for category, files in organized_files.items():
+        create_folder(category)
+        move_files(category, files)
 
+    if others:
+        create_folder("Others")
+        move_files("Others", others)
+
+    print("Files have been organized successfully!")
