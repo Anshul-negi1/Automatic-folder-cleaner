@@ -1,24 +1,23 @@
 import os
 
-def create_folder(folder):
-    os.makedirs(folder, exist_ok=True)
+def create_and_move_files(folder, files):
+    if files:
+        os.makedirs(folder, exist_ok=True)
+        for file in files:
+            os.replace(file, os.path.join(folder, file))
 
-def move_files(folder, files):
-    for file in files:
-        os.replace(file, os.path.join(folder, file))
-
-if __name__ == "__main__":
+def organize_files():
     files = [f for f in os.listdir() if os.path.isfile(f) and f != "main.py"]
-
+    
     categories = {
-        "Images": [".png", ".jpg", ".jpeg"],
-        "Docs": [".txt", ".docx", ".doc", ".pdf"],
-        "Media": [".mp4", ".mp3", ".flv"],
+        "Images": {".png", ".jpg", ".jpeg"},
+        "Docs": {".txt", ".docx", ".doc", ".pdf"},
+        "Media": {".mp4", ".mp3", ".flv"}
     }
-
-    organized_files = {key: [] for key in categories}
+    
+    organized_files = {category: [] for category in categories}
     others = []
-
+    
     for file in files:
         ext = os.path.splitext(file)[1].lower()
         for category, extensions in categories.items():
@@ -27,13 +26,13 @@ if __name__ == "__main__":
                 break
         else:
             others.append(file)
-
+    
     for category, files in organized_files.items():
-        create_folder(category)
-        move_files(category, files)
-
-    if others:
-        create_folder("Others")
-        move_files("Others", others)
-
+        create_and_move_files(category, files)
+    
+    create_and_move_files("Others", others)
+    
     print("Files have been organized successfully!")
+
+if __name__ == "__main__":
+    organize_files()
