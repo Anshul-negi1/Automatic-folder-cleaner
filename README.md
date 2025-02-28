@@ -1,37 +1,55 @@
-File Organizer Script
+File Organizer Script  
 
-This Python script organizes files in the current directory into separate folders based on their file types. It creates four folders: Images, Docs, Media, and Others and moves the respective files into them.
+A simple Python script to automatically organize files in a directory by categorizing them into folders based on their file types.  
 
-Features
+ Features  
 
-Automatically creates necessary folders if they do not exist.
+- Creates necessary folders if they don’t exist.  
+- Moves files into appropriate folders based on their extensions.  
+- Helps keep directories clean and organized.  
 
-Categorizes files into Images, Documents, Media, and Others.
+ Installation  
 
-Uses the os module to move files efficiently.
+1. Clone the repository:  
+   ```sh
+   git clone https://github.com/Anshul-negi1/file-organizer.git
+   cd file-organizer
 
-Installation
+   Usage
 
-Clone this repository or download the script.
-
-git clone https://github.com/Anshul-negi1/file-organizer.git
-cd file-organizer
-
-Ensure Python is installed (Python 3 recommended).
-
-Usage
-
-Run the script in the directory containing the files you want to organize:
-
+Run the script in the directory where you want to organize files:
 python main.py
 
-File Categories
+This will create the following folders and move files accordingly:
+	•	Images: .png, .jpg, .jpeg
+	•	Docs: .txt, .docx, .doc, .pdf
+	•	Media: .mp4, .mp3, .flv
+	•	Others: Any other file types
 
-Images: .png, .jpg, .jpeg
+Example
 
-Docs: .txt, .docx, .doc, .pdf
+Before Running the Script:
 
-Media: .mp4, .mp3, .flv
+/Downloads
+  ├── image1.jpg
+  ├── document.docx
+  ├── song.mp3
+  ├── video.mp4
+  ├── random.exe
 
-Others: Any other file types
+After Running the Script:
 
+/Downloads
+  ├── Images
+  │    ├── image1.jpg
+  │  
+  ├── Docs
+  │    ├── document.docx
+  │  
+  ├── Media
+  │    ├── song.mp3
+  │    ├── video.mp4
+  │  
+  ├── Others
+  │    ├── random.exe
+   
